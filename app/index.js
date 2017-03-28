@@ -1,6 +1,4 @@
 exports = module.exports = {
-  'tokens/jwt/si/interpret': require('./tokens/jwt/si/interpret'),
-  'tokens/jwt/si/translate': require('./tokens/jwt/si/translate')
 };
 
 exports.load = function(id) {

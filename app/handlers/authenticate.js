@@ -24,7 +24,7 @@ exports = module.exports = function(Tokens, cors, parseCookies, parse, csrfProte
     } ];
     ctx.csrfToken = req.csrfToken();
     
-    Tokens.cipher(ctx, { dialect: 'http://schemas.authnomicon.org/aaa/tokens/jwt/si-token' }, function(err, token) {
+    Tokens.cipher(ctx, { type: 'application/jwt', dialect: 'urn:ietf:params:oauth:token-type:id_token' }, function(err, token) {
       if (err) { return cb(err); }
       
       console.log(token);
