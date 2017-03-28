@@ -29,7 +29,7 @@ exports = module.exports = function(Tokens, cors, parseCookies, parse, csrfProte
       
       console.log(token);
       
-      res.json({ session_token: token });
+      res.json({ id_token: token });
     });
   }
   
