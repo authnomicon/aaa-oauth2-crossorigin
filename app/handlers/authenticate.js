@@ -28,16 +28,16 @@ exports = module.exports = function(Tokens, cors, parseCookies, parse, csrfProte
     } ];
     
     
-    if (req.session.csrfSecret) {
-      // TODO: Expand detection of existing csrf ability
-      ctx.csrfToken = req.csrfToken();
-    } else {
+    if (req.body.co_challenge) {
       ctx.confirmation = {
-        method: 'cotb',
+        method: 'cross-origin',
         origin: req.headers.origin,
-        challenge: req.body.cotb_challenge,
+        challenge: req.body.co_challenge,
         transform: 'none'
       }
+    } else {
+      // TODO: Expand detection of existing csrf ability
+      ctx.csrfToken = req.csrfToken();
     }
     
     
