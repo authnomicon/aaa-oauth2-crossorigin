@@ -27,7 +27,7 @@ exports = module.exports = function(initialize, csrfProtection, Tokens) {
     res.locals.csrfToken = req.csrfToken();
     res.locals.token = req.query.token;
     
-    var filename = path.join(__dirname, '../../../../www/session/challenge.html.ejs');
+    var filename = path.join(__dirname, '../../../www/session/challenge.html.ejs');
     ejs.renderFile(filename, res.locals, function(err, html) {
       if (err) { return next(err); }
       return res.send(html);
