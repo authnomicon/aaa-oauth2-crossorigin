@@ -36,13 +36,13 @@ exports = module.exports = function(initialize, parse, csrfProtection, Tokens) {
       case 'cross-origin':
         if (conf.challenge !== req.body.co_verifier) { // TODO: SHA256
           // TODO: HTTP ERRORS
-          return cb(new Error('Not confirmed'));
+          return next(new Error('Not confirmed'));
         }
         break;
         
       default:
         // TODO: HTTP errors
-        return cb(new Error('Unsupported confirmation method: ' + conf.name));
+        return next(new Error('Unsupported confirmation method: ' + conf.name));
       }
     }
     
