@@ -2,62 +2,42 @@
   <title>Check Origin IFrame</title>
 </head>
 <body>
-  
   <form method="post" action="/oauth2/co/session">
-  	<input type="hidden" name="token" value="<%= token %>"/>
+    <input type="hidden" name="token" value="<%= token %>"/>
     <input type="hidden" name="_csrf" value="<%= csrfToken %>"/>
   </form>
-  
-	<script type="text/javascript">
-    
+  <script type="text/javascript">
     (function(window, document) {
-      console.log('set session iframe ready...')
+      // TODO: Get origin from param
+      var iframe = 'http://localhost:3001/co/verify'
+        , origin = 'http://localhost:3001'
+        , node;
       
-      
-      window.addEventListener('message', function (evt) {
-        console.log('GOT EVENT IN SET SESSION');
-        console.log(evt.data);
-        console.log(evt.origin)
-        
+      window.addEventListener('message', function(evt) {
         switch (evt.data.type) {
         case 'ready':
-          console.log('VERIFIER READY!');
-          evt.source.postMessage({ type: 'co_verifier_request' }, 'http://localhost:3001');
+          evt.source.postMessage({ type: 'co_verifier_request' }, origin);
           break;
           
         case 'co_verifier_response':
-          var node = document.createElement('input');
-          node.setAttribute('type', 'hidden');
-          node.setAttribute('name', 'co_verifier');
-          node.setAttribute('value', evt.data.verifier);
-          document.forms[0].appendChild(node);
+          if (evt.data.response && evt.data.response.verifier) {
+            node = document.createElement('input');
+            node.setAttribute('type', 'hidden');
+            node.setAttribute('name', 'verifier');
+            node.setAttribute('value', evt.data.response.verifier);
+            document.forms[0].appendChild(node);
+          }
           document.forms[0].submit();
           break;
         }
       });
       
-      console.log('opener:');
-      console.log(window.opener);
-      console.log('parent:');
-      console.log(window.parent);
       
       // http://stackoverflow.com/questions/36499719/sending-postmessage-via-iframe-and-open-window-in-safari
       
-      if (window.parent === window) {
-        console.log('ITS OWN WINDOW!');
-      }
-      
-      
-      if (window.opener) {
-        window.opener.postMessage({ type: 'co_verifier_request' }, 'http://localhost:3001');
-      } else {
-        var iframe = document.createElement('iframe');
-        iframe.setAttribute('src', 'http://localhost:3001/co/verify');
-        document.body.appendChild(iframe);
-      }
-      
+      node = document.createElement('iframe');
+      node.setAttribute('src', iframe);
+      document.body.appendChild(node);
     })(this, this.document);
-    
-	</script>
+  </script>
 </body>
-    
