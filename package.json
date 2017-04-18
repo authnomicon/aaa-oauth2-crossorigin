@@ -1,11 +1,18 @@
 {
-  "name": "nodex-aaa-oauth2-crossorigin",
+  "name": "@authnomicon/aaa-oauth2-crossorigin",
   "version": "0.0.0",
   "description": "",
   "author": {
     "name": "Jared Hanson",
     "email": "jaredhanson@gmail.com",
     "url": "http://www.jaredhanson.net/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/authnomicon/aaa-oauth2-crossorigin.git"
+  },
+  "bugs": {
+    "url": "http://github.com/authnomicon/aaa-oauth2-crossorigin/issues"
   },
   "license": "MIT",
   "licenses": [
