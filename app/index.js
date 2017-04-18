@@ -1,4 +1,6 @@
 exports = module.exports = {
+  'tokens/login-ticket/interpret': require('./tokens/login-ticket/interpret'),
+  'tokens/login-ticket/translate': require('./tokens/login-ticket/translate')
 };
 
 exports.load = function(id) {
