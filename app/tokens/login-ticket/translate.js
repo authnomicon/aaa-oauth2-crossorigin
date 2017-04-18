@@ -24,7 +24,7 @@ exports = module.exports = function() {
         claims.cnf = {};
         claims.cnf.co_origin = conf.origin;
         claims.cnf.co_challenge = conf.challenge;
-        if (conf.transform && conf.transform !== 'plain') { claims.cnf.co_challenge_method = conf.transform; }
+        if (conf.transform && conf.transform !== 'none') { claims.cnf.co_challenge_method = conf.transform; }
         break;
       default:
         // TODO: throw error;

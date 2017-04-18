@@ -22,7 +22,7 @@ exports = module.exports = function() {
             method: 'pkco',
             origin: claims.cnf.co_origin,
             challenge: claims.cnf.co_challenge,
-            transform: claims.cnf.co_challenge_method || 'plain'
+            transform: claims.cnf.co_challenge_method || 'none'
           });
           break;
         case 'co_origin':

@@ -3,7 +3,7 @@ exports = module.exports = function(Tokens, cors, parseCookies, parse, csrfProte
   function respond(req, res, next) {
     // TODO:
     
-    console.log('################################');
+    console.log('CO AUTHENTICATE ################################');
     console.log(req.user);
     console.log(req.headers);
     console.log(req.query);
@@ -30,7 +30,7 @@ exports = module.exports = function(Tokens, cors, parseCookies, parse, csrfProte
     
     if (req.body.co_challenge) {
       ctx.confirmation = {
-        method: 'cross-origin',
+        method: 'pkco',
         origin: req.headers.origin,
         challenge: req.body.co_challenge,
         transform: 'none'
@@ -41,12 +41,12 @@ exports = module.exports = function(Tokens, cors, parseCookies, parse, csrfProte
     }
     
     
-    Tokens.cipher(ctx, { type: 'application/jwt', dialect: 'urn:ietf:params:oauth:token-type:id_token' }, function(err, token) {
+    Tokens.cipher(ctx, { type: 'application/jwt', dialect: 'http://schemas.authnomicon.org/tokens/jwt/login-ticket' }, function(err, token) {
       if (err) { return next(err); }
       
       console.log(token);
       
-      res.json({ id_token: token });
+      res.json({ login_ticket: token });
     });
   }
   

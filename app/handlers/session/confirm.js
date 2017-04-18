@@ -9,7 +9,7 @@ exports = module.exports = function(initialize, parse, csrfProtection, Tokens) {
   
   
   function decipherToken(req, res, next) {
-    Tokens.decipher(req.body.token, { dialect: 'urn:ietf:params:oauth:token-type:id_token' }, function(err, claims, issuer) {
+    Tokens.decipher(req.body.token, { dialect: 'http://schemas.authnomicon.org/tokens/jwt/login-ticket' }, function(err, claims, issuer) {
       if (err) { return next(err); }
       
       console.log('GOT CLAIMS');
