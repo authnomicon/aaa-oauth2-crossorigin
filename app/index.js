@@ -1,4 +1,5 @@
 exports = module.exports = {
+  'ext/crossorigin': require('./ext/crossorigin'),
   'tokens/login-ticket/interpret': require('./tokens/login-ticket/interpret'),
   'tokens/login-ticket/translate': require('./tokens/login-ticket/translate')
 };

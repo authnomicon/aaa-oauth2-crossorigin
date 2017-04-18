@@ -33,7 +33,7 @@ exports = module.exports = function(initialize, parse, csrfProtection, Tokens) {
       
       
       switch (conf.method) {
-      case 'cross-origin':
+      case 'pkco':
         if (conf.challenge !== req.body.verifier) { // TODO: SHA256
           // TODO: HTTP ERRORS
           return next(new Error('Not confirmed'));
