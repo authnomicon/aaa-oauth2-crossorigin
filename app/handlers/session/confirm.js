@@ -4,12 +4,17 @@
 // or yes because this iframe is needed when the password is posted back to the host domain
 // XHR is needed to pass password to AS
 
-exports = module.exports = function(initialize, parse, csrfProtection, Tokens) {
+exports = module.exports = function(initialize, parse, csrfProtection, loadState, Tokens) {
   var path = require('path');
   
   
   function decipherToken(req, res, next) {
-    Tokens.decipher(req.body.token, { dialect: 'http://schemas.authnomicon.org/tokens/jwt/login-ticket' }, function(err, claims, issuer) {
+    console.log('DECIPHERING TOKNE');
+    console.log(req.body)
+    console.log(req.state);
+    
+    
+    Tokens.decipher(req.state.token, { dialect: 'http://schemas.authnomicon.org/tokens/jwt/login-ticket' }, function(err, claims, issuer) {
       if (err) { return next(err); }
       
       console.log('GOT CLAIMS');
@@ -61,6 +66,7 @@ exports = module.exports = function(initialize, parse, csrfProtection, Tokens) {
     initialize(),
     parse('application/x-www-form-urlencoded'),
     csrfProtection(),
+    loadState('co/challenge/pkco', { required: true }),
     decipherToken,
     confirmToken,
     respond
@@ -71,5 +77,6 @@ exports['@require'] = [
   'http://i.bixbyjs.org/http/middleware/initialize',
   'http://i.bixbyjs.org/http/middleware/parse',
   'http://i.bixbyjs.org/http/middleware/csrfProtection',
+  'http://i.bixbyjs.org/http/middleware/loadState',
   'http://i.bixbyjs.org/tokens'
 ];
