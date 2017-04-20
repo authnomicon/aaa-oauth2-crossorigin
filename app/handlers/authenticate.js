@@ -1,4 +1,5 @@
-exports = module.exports = function(initialize, cors, parseCookies, parse, csrfProtection, authenticate, errorLogging, Tokens) {
+exports = module.exports = function(initialize, cors, parseCookies, parse, csrfProtection, authenticate, errorLogging, server, Tokens) {
+  var oauth2orize = require('oauth2orize');
   
   var NORMALIZED_TRANSFORM_TABLE = {
     'plain': 'none',
@@ -7,8 +8,15 @@ exports = module.exports = function(initialize, cors, parseCookies, parse, csrfP
   
   
   function validate(req, res, next) {
+    console.log('### CO AUTHENTICATE');
+    console.log(req.headers);
+    console.log(req.body);
+    
     if (req.body.co_challenge_method) {
       req.locals.transform = NORMALIZED_TRANSFORM_TABLE[req.body.co_challenge_method];
+      if (!req.locals.transform) {
+        return next(new oauth2orize.TokenError('Unsupported challenge method: ' + req.body.co_challenge_method, 'invalid_request'))
+      }
     }
     
     next();
@@ -55,7 +63,8 @@ exports = module.exports = function(initialize, cors, parseCookies, parse, csrfP
     authenticate('local'),
     validate,
     respond,
-    errorLogging()
+    errorLogging(),
+    server.errorHandler()
   ];
 };
 
@@ -67,5 +76,6 @@ exports['@require'] = [
   'http://i.bixbyjs.org/http/middleware/csrfProtection',
   'http://i.bixbyjs.org/http/middleware/authenticate',
   'http://i.bixbyjs.org/http/middleware/errorLogging',
+  'http://schemas.authnomicon.org/js/aaa/oauth2/Server',
   'http://i.bixbyjs.org/tokens'
 ];

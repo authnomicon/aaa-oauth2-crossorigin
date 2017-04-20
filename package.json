@@ -23,7 +23,8 @@
   ],
   "main": "./app",
   "dependencies": {
-    "ejs": "^2.5.6"
+    "ejs": "^2.5.6",
+    "oauth2orize": "^1.8.0"
   },
   "devDependencies": {
     "make-node": "^0.3.0",
