@@ -4,59 +4,17 @@
 // or yes because this iframe is needed when the password is posted back to the host domain
 // XHR is needed to pass password to AS
 
-exports = module.exports = function(initialize, parse, csrfProtection, loadState, Tokens) {
+exports = module.exports = function(initialize, parse, csrfProtection, completeActivity, failActivity, Tokens, directory) {
   var path = require('path');
   
   
-  function decipherToken(req, res, next) {
-    console.log('DECIPHERING TOKNE');
-    console.log(req.body)
-    console.log(req.state);
-    
-    
-    Tokens.decipher(req.state.token, { dialect: 'http://schemas.authnomicon.org/tokens/jwt/login-ticket' }, function(err, claims, issuer) {
-      if (err) { return next(err); }
-      
-      console.log('GOT CLAIMS');
-      console.log(claims);
-      
-      req.locals.claims = claims;
-      next();
-    });
-  }
-  
-  function confirmToken(req, res, next) {
-    var confirmation = req.locals.claims.confirmation || []
-      , conf;
-
-    for (i = 0, len = confirmation.length; i < len; ++i) {
-      conf = confirmation[i];
-      
-      console.log('CHECK THIS:');
-      console.log(conf)
-      console.log(req.body);
-      
-      
-      switch (conf.method) {
-      case 'pkco':
-        if (conf.challenge !== req.body.verifier) { // TODO: SHA256
-          // TODO: HTTP ERRORS
-          return next(new Error('Not confirmed'));
-        }
-        break;
-        
-      default:
-        // TODO: HTTP errors
-        return next(new Error('Unsupported confirmation method: ' + conf.name));
-      }
-    }
-    
+  function obtainVerifier(req, res, next) {
+    res.locals.verifier = req.body.verifier;
     next();
   }
   
   function respond(req, res) {
-    console.log('SETTING UP SESSION...');
-    console.log(req.body)
+    // TODO: Default behavior for when this didn't have a parent state (shouldn't happen...)
     
     res.send('TODO')
   }
@@ -66,9 +24,9 @@ exports = module.exports = function(initialize, parse, csrfProtection, loadState
     initialize(),
     parse('application/x-www-form-urlencoded'),
     csrfProtection(),
-    loadState('co/challenge/pkco', { required: true }),
-    decipherToken,
-    confirmToken,
+    obtainVerifier,
+    completeActivity('co/challenge/pkco'),
+    failActivity('co/challenge/pkco'),
     respond
   ];
 };
@@ -77,6 +35,8 @@ exports['@require'] = [
   'http://i.bixbyjs.org/http/middleware/initialize',
   'http://i.bixbyjs.org/http/middleware/parse',
   'http://i.bixbyjs.org/http/middleware/csrfProtection',
-  'http://i.bixbyjs.org/http/middleware/loadState',
-  'http://i.bixbyjs.org/tokens'
+  'http://i.bixbyjs.org/http/middleware/completeTask',
+  'http://i.bixbyjs.org/http/middleware/failTask',
+  'http://i.bixbyjs.org/tokens',
+  'http://i.bixbyjs.org/ds/Directory'
 ];
