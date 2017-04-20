@@ -1,23 +1,22 @@
-exports = module.exports = function(Tokens, cors, parseCookies, parse, csrfProtection, authenticate, errorLogging) {
+exports = module.exports = function(initialize, cors, parseCookies, parse, csrfProtection, authenticate, errorLogging, Tokens) {
+  
+  var NORMALIZED_TRANSFORM_TABLE = {
+    'plain': 'none',
+    'S256': 'sha256'
+  }
+  
+  
+  function validate(req, res, next) {
+    if (req.body.co_challenge_method) {
+      req.locals.transform = NORMALIZED_TRANSFORM_TABLE[req.body.co_challenge_method];
+    }
+    
+    next();
+  }
   
   function respond(req, res, next) {
-    // TODO:
-    
-    console.log('CO AUTHENTICATE ################################');
-    console.log(req.user);
-    console.log(req.headers);
-    console.log(req.query);
-    
-    console.log(req.body);
-    
-    console.log(req.cookies)
-    console.log(req.session);
-    
-    console.log('CSRF TOKEN IS:');
-    console.log(req.csrfToken())
-  
-    // TODO: Check if we have a cookie header with a previous XSRF.  If so, don't need
-    //       cotb
+    // WIP: do this with and without cookies (aka credentials)
+    //      rename www/session to www/challenge/pkco
     
     var ctx = {};
     ctx.user = req.user;
@@ -27,54 +26,46 @@ exports = module.exports = function(Tokens, cors, parseCookies, parse, csrfProte
       secret: 'some-secret-shared-with-oauth-authorization-server'
     } ];
     
-    
+    // TODO: Replace this with authInfo session ID
     ctx.sessionID = req.session.id;
+    ctx.csrfToken = req.csrfToken();
     
     if (req.body.co_challenge) {
       ctx.confirmation = {
         method: 'pkco',
         origin: req.headers.origin,
         challenge: req.body.co_challenge,
-        transform: 'none'
+        transform: req.locals.transform
       }
-    } else {
-      // TODO: Expand detection of existing csrf ability
-      ctx.csrfToken = req.csrfToken();
     }
-    
     
     Tokens.cipher(ctx, { type: 'application/jwt', dialect: 'http://schemas.authnomicon.org/tokens/jwt/login-ticket' }, function(err, token) {
       if (err) { return next(err); }
-      
-      console.log(token);
-      
       res.json({ login_ticket: token });
     });
   }
   
   
   return [
+    initialize(),
     cors({ credentials: true, origin: 'http://localhost:3001' }),
     parseCookies(),
     parse('application/json'),
     csrfProtection({ ignoreMethods: [ 'POST' ] }),
-    function(req, res, next) {
-      console.log('******');
-      console.log(req.session);
-      next();
-    },
     authenticate('local'),
+    validate,
     respond,
     errorLogging()
   ];
 };
 
 exports['@require'] = [
-  'http://i.bixbyjs.org/tokens',
+  'http://i.bixbyjs.org/http/middleware/initialize',
   'http://i.bixbyjs.org/http/middleware/cors',
   'http://i.bixbyjs.org/http/middleware/parseCookies',
   'http://i.bixbyjs.org/http/middleware/parse',
   'http://i.bixbyjs.org/http/middleware/csrfProtection',
   'http://i.bixbyjs.org/http/middleware/authenticate',
-  'http://i.bixbyjs.org/http/middleware/errorLogging'
+  'http://i.bixbyjs.org/http/middleware/errorLogging',
+  'http://i.bixbyjs.org/tokens'
 ];
