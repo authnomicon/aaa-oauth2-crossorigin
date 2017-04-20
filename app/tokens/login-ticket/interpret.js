@@ -6,6 +6,7 @@ exports = module.exports = function() {
     var ctx = {};
     ctx.subject = { id: claims.sub };
     ctx.client = { id: claims.azp };
+    ctx.sessionID = claims.sid;
     ctx.csrfToken = claims.rfp;
     
     if (claims.cnf) {

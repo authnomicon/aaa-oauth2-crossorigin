@@ -28,6 +28,8 @@ exports = module.exports = function(Tokens, cors, parseCookies, parse, csrfProte
     } ];
     
     
+    ctx.sessionID = req.session.id;
+    
     if (req.body.co_challenge) {
       ctx.confirmation = {
         method: 'pkco',

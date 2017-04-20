@@ -11,6 +11,10 @@ exports = module.exports = function() {
       claims.azp = ctx.client.id;
     }
     
+    if (ctx.sessionID) {
+      // http://openid.net/specs/openid-connect-frontchannel-1_0.html#OPLogout
+      claims.sid = ctx.sessionID;
+    }
     if (ctx.csrfToken) {
       // https://tools.ietf.org/html/draft-bradley-oauth-jwt-encoded-state-07
       claims.rfp = ctx.csrfToken;
