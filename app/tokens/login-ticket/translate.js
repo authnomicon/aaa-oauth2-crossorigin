@@ -21,14 +21,13 @@ exports = module.exports = function() {
     }
     
     if (ctx.confirmation) {
-      conf = ctx.confirmation;
+      conf = ctx.confirmation[0];
       switch (conf.method) {
-      case 'pkco':
+      case 'cotc':
         // TODO: nonce?
         claims.cnf = {};
-        claims.cnf.co_origin = conf.origin;
-        claims.cnf.co_challenge = conf.challenge;
-        if (conf.transform && conf.transform !== 'none') { claims.cnf.co_challenge_method = conf.transform; }
+        claims.cnf.coo = conf.origin;
+        claims.cnf.cov = conf.verifier;
         break;
       default:
         // TODO: throw error;

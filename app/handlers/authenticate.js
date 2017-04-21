@@ -1,5 +1,6 @@
 exports = module.exports = function(initialize, cors, parseCookies, parse, csrfProtection, authenticate, errorLogging, server, Tokens) {
-  var oauth2orize = require('oauth2orize');
+  var oauth2orize = require('oauth2orize')
+    , uid = require('uid-safe');
   
   var NORMALIZED_TRANSFORM_TABLE = {
     'plain': 'none',
@@ -26,6 +27,8 @@ exports = module.exports = function(initialize, cors, parseCookies, parse, csrfP
     // WIP: do this with and without cookies (aka credentials)
     //      rename www/session to www/challenge/pkco
     
+    var verifier = uid.sync(16);
+    
     var ctx = {};
     ctx.user = req.user;
     ctx.client = { id: '1' };
@@ -37,19 +40,15 @@ exports = module.exports = function(initialize, cors, parseCookies, parse, csrfP
     // TODO: Replace this with authInfo session ID
     ctx.sessionID = req.session.id;
     ctx.csrfToken = req.csrfToken();
-    
-    if (req.body.co_challenge) {
-      ctx.confirmation = {
-        method: 'pkco',
-        origin: req.headers.origin,
-        challenge: req.body.co_challenge,
-        transform: req.locals.transform
-      }
-    }
+    ctx.confirmation = [ {
+      method: 'cotc',
+      origin: req.headers.origin,
+      verifier: verifier
+    } ];
     
     Tokens.cipher(ctx, { type: 'application/jwt', dialect: 'http://schemas.authnomicon.org/tokens/jwt/login-ticket' }, function(err, token) {
       if (err) { return next(err); }
-      res.json({ login_ticket: token });
+      res.json({ login_ticket: token, co_verifier: verifier });
     });
   }
   

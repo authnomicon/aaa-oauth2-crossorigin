@@ -17,17 +17,15 @@ exports = module.exports = function() {
         key = keys[i];
        
         switch (key) {
-        case 'co_challenge':
+        case 'cov':
           //TODO: nonce?
           ctx.confirmation.push({
-            method: 'pkco',
-            origin: claims.cnf.co_origin,
-            challenge: claims.cnf.co_challenge,
-            transform: claims.cnf.co_challenge_method || 'none'
+            method: 'cotc',
+            origin: claims.cnf.coo,
+            verifier: claims.cnf.cov
           });
           break;
-        case 'co_origin':
-        case 'co_challenge_method':
+        case 'coo':
           break;
         default:
           ctx.confirmation.push({ method: 'unknown', name: key });

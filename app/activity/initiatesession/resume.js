@@ -13,12 +13,12 @@ exports = module.exports = function(initialize, completeActivity, failActivity, 
       for (i = 0, len = confirmation.length; i < len; ++i) {
         conf = confirmation[i];
         
-        if (conf.method !== 'pkco') { continue; }
+        if (conf.method !== 'cotc') { continue; }
         
       
         switch (conf.method) {
-        case 'pkco':
-          if (conf.challenge !== res.locals.verifier) { // TODO: SHA256
+        case 'cotc':
+          if (conf.verifier !== res.locals.verifier) { // TODO: SHA256
             // TODO: HTTP ERRORS
             return next(new Error('Not confirmed'));
           }

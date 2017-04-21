@@ -27,7 +27,7 @@ exports = module.exports = function(store, Tokens) {
         conf = confirmation[i];
         
         switch (conf.method) {
-        case 'pkco':
+        case 'cotc':
           store.save(req, state, function(err, h) {
             if (err) { return next(err); }
             return res.redirect('/co/challenge/pkco' + '?' + qs.stringify({ state: h }));
