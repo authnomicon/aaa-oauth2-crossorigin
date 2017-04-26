@@ -30,7 +30,7 @@ exports = module.exports = function(store, Tokens) {
         case 'cotc':
           store.save(req, state, function(err, h) {
             if (err) { return next(err); }
-            return res.redirect('/co/confirm/cotc' + '?' + qs.stringify({ state: h }));
+            return res.redirect('/co/confirm/cotc' + '?' + qs.stringify({ id: conf.id, state: h }));
           });
           break;
           

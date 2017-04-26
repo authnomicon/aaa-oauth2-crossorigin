@@ -26,7 +26,7 @@ exports = module.exports = function() {
       case 'cotc':
         // TODO: nonce?
         claims.cnf = {};
-        claims.cnf.coo = conf.origin;
+        claims.cnf.coi = conf.id;
         claims.cnf.cov = conf.verifier;
         break;
       default:

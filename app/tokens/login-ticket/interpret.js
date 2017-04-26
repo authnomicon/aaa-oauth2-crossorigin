@@ -21,10 +21,11 @@ exports = module.exports = function() {
           //TODO: nonce?
           ctx.confirmation.push({
             method: 'cotc',
-            origin: claims.cnf.coo,
+            id: claims.cnf.coi,
             verifier: claims.cnf.cov
           });
           break;
+        case 'coi':
         case 'coo':
           break;
         default:

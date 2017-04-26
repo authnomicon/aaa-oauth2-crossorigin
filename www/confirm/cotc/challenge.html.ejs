@@ -9,14 +9,15 @@
   <script type="text/javascript">
     (function(window, document) {
       // TODO: Get origin from param
-      var iframe = 'http://localhost:3001/co/verify'
-        , origin = 'http://localhost:3001'
+      var iframe = 'http://localhost:3001/co/verify#origin=http://127.0.0.1:8080'
+        , targetOrigin = '<%= targetOrigin %>'
+        , id = '<%= id %>'
         , node;
       
       window.addEventListener('message', function(evt) {
         switch (evt.data.type) {
         case 'ready':
-          evt.source.postMessage({ type: 'co_verifier_request' }, origin);
+          evt.source.postMessage({ type: 'co_verifier_request', request: { id: id } }, targetOrigin);
           break;
           
         case 'co_verifier_response':

@@ -13,6 +13,8 @@ exports = module.exports = function(csrfProtection) {
     //if (!req.query.id_token_hint) { return next(new SkipSessionInitiationError()); }
   
   function respond(req, res, next) {
+    res.locals.targetOrigin = 'http://localhost:3001';
+    res.locals.id = req.query.id;
     res.locals.state = req.query.state;
     res.locals.csrfToken = req.csrfToken();
     

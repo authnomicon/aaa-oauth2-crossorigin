@@ -1,5 +1,6 @@
 exports = module.exports = function(initialize, cors, parseCookies, parse, csrfProtection, authenticate, errorLogging, server, Tokens) {
   var oauth2orize = require('oauth2orize')
+    , uuid = require('uuid/v4')
     , uid = require('uid-safe');
   
   var NORMALIZED_TRANSFORM_TABLE = {
@@ -27,6 +28,7 @@ exports = module.exports = function(initialize, cors, parseCookies, parse, csrfP
     // WIP: do this with and without cookies (aka credentials)
     //      rename www/session to www/challenge/pkco
     
+    var id = uuid();
     var verifier = uid.sync(16);
     
     var ctx = {};
@@ -42,13 +44,13 @@ exports = module.exports = function(initialize, cors, parseCookies, parse, csrfP
     ctx.csrfToken = req.csrfToken();
     ctx.confirmation = [ {
       method: 'cotc',
-      origin: req.headers.origin,
+      id: id,
       verifier: verifier
     } ];
     
     Tokens.cipher(ctx, { type: 'application/jwt', dialect: 'http://schemas.authnomicon.org/tokens/jwt/login-ticket' }, function(err, token) {
       if (err) { return next(err); }
-      res.json({ login_ticket: token, co_verifier: verifier });
+      res.json({ login_ticket: token, co_id: id, co_verifier: verifier });
     });
   }
   
