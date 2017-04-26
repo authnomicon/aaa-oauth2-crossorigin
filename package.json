@@ -1,5 +1,5 @@
 {
-  "name": "@authnomicon/aaa-oauth2-crossorigin",
+  "name": "@authnomicon/aaa-oauth2-openid-crossorigin",
   "version": "0.0.0",
   "description": "",
   "author": {
@@ -9,10 +9,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/authnomicon/aaa-oauth2-crossorigin.git"
+    "url": "git://github.com/authnomicon/aaa-oauth2-openid-crossorigin.git"
   },
   "bugs": {
-    "url": "http://github.com/authnomicon/aaa-oauth2-crossorigin/issues"
+    "url": "http://github.com/authnomicon/aaa-oauth2-openid-crossorigin/issues"
   },
   "license": "MIT",
   "licenses": [
