@@ -8,7 +8,7 @@ exports = module.exports = function(store, Tokens) {
         name: 'oauth2/crossorigin/initiate-session',
         ticket: params.ticket
       };
-    if (params.state) { state.parent = params.state; }
+    if (req.state) { state.parent = req.state.handle; }
     
     
     Tokens.decipher(params.ticket, { dialect: 'http://schemas.authnomicon.org/tokens/jwt/login-ticket' }, function(err, claims) {
