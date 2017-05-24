@@ -49,6 +49,6 @@ exports = module.exports = function(store, Tokens) {
 };
 
 exports['@require'] = [
-  'http://i.bixbyjs.org/http/state/Store',
+  'http://i.bixbyjs.org/http/workflow/StateStore',
   'http://i.bixbyjs.org/tokens'
 ];
