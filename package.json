@@ -26,6 +26,7 @@
     "namespace": "oauth2/openid/crossorigin",
     "components": [
       "ext/crossorigin",
+      "activity/initiatesession",
       "tokens/login-ticket/interpret",
       "tokens/login-ticket/translate"
     ]
