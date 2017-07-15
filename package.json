@@ -28,7 +28,8 @@
       "ext/crossorigin",
       "activity/initiatesession",
       "tokens/login-ticket/interpret",
-      "tokens/login-ticket/translate"
+      "tokens/login-ticket/translate",
+      "handlers/authenticate"
     ]
   },
   "dependencies": {

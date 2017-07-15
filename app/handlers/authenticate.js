@@ -1,4 +1,4 @@
-exports = module.exports = function(initialize, cors, parseCookies, parse, csrfProtection, authenticate, errorLogging, server, Tokens) {
+exports = module.exports = function(initialize, cors, parseCookies, parse, csrfProtection, authenticate, errorLogging, errorHandler, Tokens) {
   var oauth2orize = require('oauth2orize')
     , uuid = require('uuid/v4')
     , uid = require('uid-safe');
@@ -65,7 +65,7 @@ exports = module.exports = function(initialize, cors, parseCookies, parse, csrfP
     validate,
     respond,
     errorLogging(),
-    server.errorHandler()
+    errorHandler()
   ];
 };
 
@@ -77,6 +77,6 @@ exports['@require'] = [
   'http://i.bixbyjs.org/http/middleware/csrfProtection',
   'http://i.bixbyjs.org/http/middleware/authenticate',
   'http://i.bixbyjs.org/http/middleware/errorLogging',
-  'http://schemas.authnomicon.org/js/aaa/oauth2/Server',
+  'http://schemas.authnomicon.org/js/http/oauth2/middleware/errorHandler',
   'http://i.bixbyjs.org/tokens'
 ];
