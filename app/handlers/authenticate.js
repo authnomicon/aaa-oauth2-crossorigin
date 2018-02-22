@@ -77,6 +77,6 @@ exports['@require'] = [
   'http://i.bixbyjs.org/http/middleware/csrfProtection',
   'http://i.bixbyjs.org/http/middleware/authenticate',
   'http://i.bixbyjs.org/http/middleware/errorLogging',
-  'http://schemas.authnomicon.org/js/http/oauth2/middleware/errorHandler',
+  'http://schemas.authnomicon.org/js/oauth2/http/middleware/errorHandler',
   'http://i.bixbyjs.org/tokens'
 ];

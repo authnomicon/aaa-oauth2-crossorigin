@@ -1,4 +1,4 @@
-exports = module.exports = function(initialize, completeActivity, failActivity, Tokens, directory) {
+exports = module.exports = function(initialize, completeActivity, failActivity, Tokens, Users) {
   
   
   function confirmTicket(req, res, next) {
@@ -39,7 +39,7 @@ exports = module.exports = function(initialize, completeActivity, failActivity, 
   function initiateSession(req, res, next) {
     var subject = req.locals.subject;
     
-    directory.find(subject.id, function(err, user) {
+    Users.get(subject.id, function(err, user) {
       if (err) { return next(err); }
       // TODO: If no user, error.
       
@@ -77,5 +77,5 @@ exports['@require'] = [
   'http://i.bixbyjs.org/http/middleware/completeTask',
   'http://i.bixbyjs.org/http/middleware/failTask',
   'http://i.bixbyjs.org/tokens',
-  'http://i.bixbyjs.org/ds/Directory'
+  'http://schemas.authnomicon.org/js/ds/Users'
 ];
