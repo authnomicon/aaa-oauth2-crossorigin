@@ -39,6 +39,9 @@ exports = module.exports = function(initialize, completeActivity, failActivity, 
   function initiateSession(req, res, next) {
     var subject = req.locals.subject;
     
+    console.log('TODO: authnomicon-oauth2-openid-crossorigin, activity/init/resume - port to realms');
+    // TODO: Do this from realms, directory
+    /*
     Users.get(subject.id, function(err, user) {
       if (err) { return next(err); }
       // TODO: If no user, error.
@@ -48,6 +51,7 @@ exports = module.exports = function(initialize, completeActivity, failActivity, 
         return next();
       });
     });
+    */
   }
   
   // TODO: add some post-inititae middleware here that is shared (ie, to do MFA, etc...)
@@ -77,5 +81,5 @@ exports['@require'] = [
   'http://i.bixbyjs.org/http/middleware/completeTask',
   'http://i.bixbyjs.org/http/middleware/failTask',
   'http://i.bixbyjs.org/tokens',
-  'http://schemas.authnomicon.org/js/ds/Users'
+  //'http://schemas.authnomicon.org/js/ds/Users'
 ];
