@@ -1,4 +1,4 @@
-exports = module.exports = function(initialize, completeActivity, failActivity, Tokens, Users) {
+exports = module.exports = function(initialize, /*completeActivity,*/ /*failActivity,*/ Tokens, Users) {
   
   
   function confirmTicket(req, res, next) {
@@ -70,16 +70,16 @@ exports = module.exports = function(initialize, completeActivity, failActivity, 
     initialize(),
     confirmTicket,
     initiateSession,
-    completeActivity('oauth2/crossorigin/initiate-session'),
-    failActivity('oauth2/crossorigin/initiate-session'),
+    //completeActivity('oauth2/crossorigin/initiate-session'),
+    //failActivity('oauth2/crossorigin/initiate-session'),
     respond
   ];
 };
 
 exports['@require'] = [
   'http://i.bixbyjs.org/http/middleware/initialize',
-  'http://i.bixbyjs.org/http/middleware/completeTask',
-  'http://i.bixbyjs.org/http/middleware/failTask',
+  //'http://i.bixbyjs.org/http/middleware/completeTask',
+  //'http://i.bixbyjs.org/http/middleware/failTask',
   'http://i.bixbyjs.org/tokens',
   //'http://schemas.authnomicon.org/js/ds/Users'
 ];
